@@ -5,11 +5,16 @@
     <link rel="stylesheet" href="stats.css"/>
 </head>
 <body>
-<div>
-    Le score de confiance de la page <span id="page-name"></span> est de
+<div id="popup-content">
+    <div>
+        Le score de confiance de la page <span id="page-name"></span> est de
+    </div>
+    <div class="confidence-score-wrapper">
+        <span id="confidence-score"></span> / 100
+    </div>
 </div>
-<div id="confidence-score">
-    5
+<div id="error-content" class="hidden">
+    Couldn't fetch page data.
 </div>
 <script src="stats.js"></script>
 </body>
