@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Fake News Detector",
+  "version": "1.0",
+  "description": "Displays a confidence score about an article that has been submitted to the extension.",
+  "homepage_url": "https://github.com/Crocmagnon/fake-news-detector",
+  "icons": {
+    "48": "icons/logo.svg",
+    "96": "icons/logo.svg"
+  },
+  "permissions": [
+    "activeTab"
+  ],
+  "browser_action": {
+    "default_icon": "icons/logo.svg",
+    "default_title": "Fake News Detector",
+    "default_popup": "popup/stats.html"
+  }
+}
