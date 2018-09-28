@@ -18,9 +18,15 @@ function computeConfidenceScore(data) {
 function asksPageForData(tabs) {
     browser.tabs.sendMessage(tabs[0].id, {
         command: "fetchData"
-    }).then(data => {
+    }).then((page) => {
+        let tab = tabs[0];
+        let data = {
+            title: tab.title,
+            url: tab.url,
+            page: page
+        };
         console.log(data);
-        document.querySelector("#page-name").innerHTML = data.pageName;
+        document.querySelector("#page-name").innerHTML = data.title;
 
         let confidenceScore = computeConfidenceScore(data);
         document.querySelector("#confidence-score").innerHTML = confidenceScore;
@@ -32,7 +38,7 @@ function asksPageForData(tabs) {
             tabId: tabs[0].id,
             text: confidenceScore.toString()
         }).catch(reportError)
-    });
+    }).catch(reportError);
 }
 
 /**

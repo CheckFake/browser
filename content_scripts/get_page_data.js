@@ -13,8 +13,12 @@
      * Retrieves the page data we want and return the object.
      */
     function retrieveData() {
+        let titles = [];
+        document.querySelectorAll("h1").forEach(element => {
+            titles.push(element.innerText);
+        });
         return {
-            "pageName": document.title
+            "titles": titles
         };
     }
 
