@@ -21,7 +21,17 @@ function asksPageForData(tabs) {
     }).then(data => {
         console.log(data);
         document.querySelector("#page-name").innerHTML = data.pageName;
-        document.querySelector("#confidence-score").innerHTML = computeConfidenceScore(data);
+
+        let confidenceScore = computeConfidenceScore(data);
+        document.querySelector("#confidence-score").innerHTML = confidenceScore;
+
+        browser.browserAction.setBadgeBackgroundColor({
+            color: "#FFD729"
+        }).catch(reportError);
+        browser.browserAction.setBadgeText({
+            tabId: tabs[0].id,
+            text: confidenceScore.toString()
+        }).catch(reportError)
     });
 }
 
