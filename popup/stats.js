@@ -9,45 +9,54 @@ function reportError(error) {
  * Computes the confidence score given the page data.
  */
 function computeConfidenceScore(data) {
-    return Math.round(Math.random() * 100);
+    data.score = Math.round(Math.random() * 100);
+    return data;
+}
+
+function displayConfidenceScore(data, tab) {
+    console.log(data);
+    document.querySelector("#page-name").innerHTML = data.tab.title;
+    document.querySelector("#confidence-score").innerHTML = data.score;
+
+    let badgeDetails = {
+        tabId: tab.id,
+        text: data.score.toString()
+    };
+    if (typeof browser !== 'undefined') {
+        return browser.browserAction.setBadgeText(badgeDetails);
+    }
+    else {
+        chrome.browserAction.setBadgeText(badgeDetails);
+    }
 }
 
 /**
  * Queries the content script.
  */
-function asksPageForData(tabs) {
-    browser.tabs.sendMessage(tabs[0].id, {
-        command: "fetchData"
-    }).then((page) => {
-        let tab = tabs[0];
-        let data = {
-            title: tab.title,
-            url: tab.url,
-            page: page
-        };
-        console.log(data);
-        document.querySelector("#page-name").innerHTML = data.title;
-
-        let confidenceScore = computeConfidenceScore(data);
-        document.querySelector("#confidence-score").innerHTML = confidenceScore;
-
-        browser.browserAction.setBadgeBackgroundColor({
-            color: "#FFD729"
-        }).catch(reportError);
-        browser.browserAction.setBadgeText({
-            tabId: tabs[0].id,
-            text: confidenceScore.toString()
-        }).catch(reportError)
-    }).catch(reportError);
+function fetchTabData(tabs) {
+    let tab = tabs[0];
+    if (typeof browser !== 'undefined') {
+        return browser.tabs.sendMessage(tab.id, {command: "fetchData"});
+    }
+    else {
+        chrome.tabs.sendMessage(tab.id, {command: "fetchData"}, data => {
+            data = computeConfidenceScore(data);
+            displayConfidenceScore(data, tab);
+        });
+    }
 }
 
 /**
  * Asks the content script for details about the page it's running on.
  */
-function fetchPageData() {
-    browser.tabs.query({active: true, currentWindow: true})
-        .then(asksPageForData)
-        .catch(reportError);
+function getActiveTab() {
+    let tabQuery = {active: true, currentWindow: true};
+    if (typeof browser !== 'undefined') {
+        return browser.tabs.query(tabQuery);
+    }
+    else {
+        chrome.tabs.query(tabQuery, fetchTabData)
+    }
 }
 
 /**
@@ -60,6 +69,24 @@ function reportExecuteScriptError(error) {
     console.error(`Failed to execute get_page_data content script: ${error.message}`);
 }
 
-browser.tabs.executeScript({file: "/content_scripts/get_page_data.js"})
-    .then(fetchPageData)
-    .catch(reportExecuteScriptError);
+let script = {file: "/content_scripts/get_page_data.js"};
+let backgroundColorDetails = {
+    color: "#FFD729"
+};
+
+if (typeof browser !== 'undefined') {
+    let activeTabPromise = browser.tabs.executeScript(script)
+        .then(getActiveTab);
+
+    let computeScorePromise = activeTabPromise
+        .then(fetchTabData)
+        .then(computeConfidenceScore);
+
+    Promise.all([activeTabPromise, computeScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
+        .then(([tab, data]) => displayConfidenceScore(data, tab))
+        .catch(reportExecuteScriptError);
+}
+else {
+    chrome.browserAction.setBadgeBackgroundColor(backgroundColorDetails);
+    chrome.tabs.executeScript(script, getActiveTab);
+}

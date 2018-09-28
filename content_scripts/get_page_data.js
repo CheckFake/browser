@@ -1,4 +1,4 @@
-(function() {
+(function () {
     /**
      * Check and set a global guard variable.
      * If this content script is injected into the same page again,
@@ -18,7 +18,11 @@
             titles.push(element.innerText);
         });
         return {
-            "titles": titles
+            titles: titles,
+            tab: {
+                title: document.title,
+                url: document.URL
+            }
         };
     }
 
@@ -26,9 +30,18 @@
      * Listen for messages from the background script.
      * Call "retrieveData()".
      */
-    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-        if (message.command === "fetchData") {
-            sendResponse(retrieveData());
-        }
-    });
+    if (typeof browser !== 'undefined') {
+        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            if (message.command === "fetchData") {
+                sendResponse(retrieveData());
+            }
+        });
+    }
+    else {
+        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+            if (message.command === "fetchData") {
+                sendResponse(retrieveData());
+            }
+        });
+    }
 })();
