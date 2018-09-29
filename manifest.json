@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Fake News Detector",
   "version": "1.0",
-  "description": "/!\\ DISCLAIMER: This extension is a work in progress and in heavy development. The given score may FOR THE MOMENT be generated randomly. /!\\ Displays a confidence score about an article that has been submitted to the extension.",
+  "description": "/!\\ DISCLAIMER: IN HEAVY DEVELOPMENT/!\\\n\nDisplays a confidence score about an article that has been submitted to the extension.",
   "homepage_url": "https://github.com/Crocmagnon/fake-news-detector",
   "icons": {
     "48": "icons/logo.svg",
