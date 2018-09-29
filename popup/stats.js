@@ -13,8 +13,9 @@ function computeConfidenceScore(data) {
     return data;
 }
 
-function displayConfidenceScore(data, tab) {
-    console.log(data);
+function displayConfidenceScore(data, tabs) {
+    let tab = tabs[0];
+
     document.querySelector("#page-name").innerText = data.tab.title;
     document.querySelector("#confidence-score").innerText = data.score;
 
@@ -83,7 +84,7 @@ if (typeof browser !== 'undefined') {
         .then(computeConfidenceScore);
 
     Promise.all([activeTabPromise, computeScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
-        .then(([tab, data]) => displayConfidenceScore(data, tab))
+        .then(([tabs, data]) => displayConfidenceScore(data, tabs))
         .catch(reportExecuteScriptError);
 }
 else {
