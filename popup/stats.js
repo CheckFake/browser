@@ -15,8 +15,8 @@ function computeConfidenceScore(data) {
 
 function displayConfidenceScore(data, tab) {
     console.log(data);
-    document.querySelector("#page-name").innerHTML = data.tab.title;
-    document.querySelector("#confidence-score").innerHTML = data.score;
+    document.querySelector("#page-name").innerText = data.tab.title;
+    document.querySelector("#confidence-score").innerText = data.score;
 
     let badgeDetails = {
         tabId: tab.id,
