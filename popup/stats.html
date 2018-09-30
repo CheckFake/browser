@@ -2,19 +2,26 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="libs/bootstrap.min.css"/>
     <link rel="stylesheet" href="stats.css"/>
 </head>
 <body>
-<div id="popup-content">
-    <div>
-        Le score de confiance de la page <span id="page-name"></span> est de
+<div class="container-fluid">
+    <div id="popup-content">
+        <div class="row">
+            <div class="col-12">
+                Le score de confiance de la page <span id="page-name"></span> est&nbsp;de
+            </div>
+        </div>
+        <div class="row" id="confidence-score-wrapper">
+            <div class="col-12">
+                <span id="confidence-score" class="score"></span> / 100
+            </div>
+        </div>
     </div>
-    <div class="confidence-score-wrapper">
-        <span id="confidence-score"></span> / 100
+    <div id="error-content" class="hidden">
+        Couldn't fetch page data.
     </div>
-</div>
-<div id="error-content" class="hidden">
-    Couldn't fetch page data.
 </div>
 <script src="stats.js"></script>
 </body>
