@@ -9,7 +9,15 @@ function reportError(error) {
  * Computes the confidence score given the page data.
  */
 function computeConfidenceScore(data) {
-    data.score = Math.round(Math.random() * 100);
+    data.score = {
+        'website-score': 0,
+        'author-score': 0
+    };
+    for (const key of Object.keys(data.score)) {
+        data.score[key] = Math.round(Math.random() * 100);
+    }
+    let confidenceScore = Object.values(data.score).reduce((a, b) => a + b);
+    data.score['confidence-score'] = Math.round(confidenceScore / Object.keys(data.score).length);
     return data;
 }
 
@@ -17,11 +25,13 @@ function displayConfidenceScore(data, tabs) {
     let tab = tabs[0];
 
     document.querySelector("#page-name").innerText = data.tab.title;
-    document.querySelector("#confidence-score").innerText = data.score;
+    document.querySelectorAll('.score').forEach(
+        element => element.innerText = data.score[element.id]
+    );
 
     let badgeDetails = {
         tabId: tab.id,
-        text: data.score.toString()
+        text: data.score['confidence-score'].toString()
     };
     if (typeof browser !== 'undefined') {
         return browser.browserAction.setBadgeText(badgeDetails);
@@ -69,6 +79,17 @@ function reportExecuteScriptError(error) {
     document.querySelector("#error-content").classList.remove("hidden");
     console.error(`Failed to execute get_page_data content script: ${error.message}`);
 }
+
+/**
+ * Display/hide details about the score
+ */
+function toggleScoreDetails() {
+    document.querySelector("#score-details").classList.toggle("hidden");
+}
+
+(function () {
+    document.querySelector("#confidence-score-wrapper").addEventListener('click', toggleScoreDetails);
+})();
 
 let script = {file: "/content_scripts/get_page_data.js"};
 let backgroundColorDetails = {
