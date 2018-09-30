@@ -7,7 +7,6 @@ let prodIconDetails = {
 
 if (typeof browser !== 'undefined') {
     browser.runtime.onInstalled.addListener(details => {
-        console.log(details);
         let iconDetails = prodIconDetails;
         if (details.temporary) {
             iconDetails = devIconDetails

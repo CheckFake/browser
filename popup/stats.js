@@ -43,7 +43,6 @@ function displayConfidenceScore(data, tabs) {
     Object.entries(data.scores)
         .filter(([key, score]) => score && score.type === 'details')
         .forEach(([key, score]) => {
-            console.log(key, score);
             let line = document.createElement('tr');
             line.innerHTML = `<tr>
                 <th scope="row">${score.title}</th>
