@@ -9,15 +9,27 @@ function reportError(error) {
  * Computes the confidence score given the page data.
  */
 function computeConfidenceScore(data) {
-    data.score = {
-        'website-score': 0,
-        'author-score': 0
+    data.scores = {
+        'website-score': {
+            value: 0,
+            title: 'Website',
+            type: 'details'
+        },
+        'author-score': {
+            value: 0,
+            title: 'Author',
+            type: 'details'
+        }
     };
-    for (const key of Object.keys(data.score)) {
-        data.score[key] = Math.round(Math.random() * 100);
+    for (const key of Object.keys(data.scores)) {
+        data.scores[key].value = Math.round(Math.random() * 100);
     }
-    let confidenceScore = Object.values(data.score).reduce((a, b) => a + b);
-    data.score['confidence-score'] = Math.round(confidenceScore / Object.keys(data.score).length);
+
+    let confidenceScore = Object.values(data.scores).reduce((a, b) => a.value + b.value);
+    data.scores['confidence-score'] = {
+        type: 'overall',
+        value: Math.round(confidenceScore / Object.keys(data.scores).length)
+    };
     return data;
 }
 
@@ -25,13 +37,24 @@ function displayConfidenceScore(data, tabs) {
     let tab = tabs[0];
 
     document.querySelector("#page-name").innerText = data.tab.title;
-    document.querySelectorAll('.score').forEach(
-        element => element.innerText = data.score[element.id]
-    );
+    document.querySelector('#confidence-score').innerText = data.scores['confidence-score'].value;
+    let tableScores = document.querySelector('#scores');
+
+    Object.entries(data.scores)
+        .filter(([key, score]) => score && score.type === 'details')
+        .forEach(([key, score]) => {
+            console.log(key, score);
+            let line = document.createElement('tr');
+            line.innerHTML = `<tr>
+                <th scope="row">${score.title}</th>
+                <td id="${key}" class="score">${score.value}</td>
+            </tr>`;
+            tableScores.appendChild(line);
+        });
 
     let badgeDetails = {
         tabId: tab.id,
-        text: data.score['confidence-score'].toString()
+        text: data.scores['confidence-score'].value.toString()
     };
     if (typeof browser !== 'undefined') {
         return browser.browserAction.setBadgeText(badgeDetails);
