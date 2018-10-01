@@ -9,6 +9,9 @@ function reportError(error) {
  * Computes the confidence score given the page data.
  */
 function computeConfidenceScore(data) {
+    if (data.fromLocalStorage) {
+        return data;
+    }
     data.scores = {
         'website-score': {
             value: 0,
@@ -64,10 +67,36 @@ function displayConfidenceScore(data, tabs) {
 }
 
 /**
+ * Attempts to retrieve data from local storage
+ */
+function fetchDataFromStorage(tabs) {
+    let tab = tabs[0];
+    return browser.storage.local.get(tab.url);
+}
+
+/**
+ * Stores data in the local storage
+ */
+function storeData([tabs, data]) {
+    if (data.fromLocalStorage) {
+        return;
+    }
+    let tab = tabs[0];
+    let contentToStore = {};
+    contentToStore[tab.url] = data;
+    return browser.storage.local.set(contentToStore);
+}
+
+/**
  * Queries the content script.
  */
-function fetchTabData(tabs) {
+function fetchTabData([tabs, localData]) {
     let tab = tabs[0];
+    if (localData && Object.keys(localData).length > 0) {
+        let data = localData[tab.url];
+        data.fromLocalStorage = true;
+        return data;
+    }
     if (typeof browser !== 'undefined') {
         return browser.tabs.sendMessage(tab.id, {command: "fetchData"});
     }
@@ -120,11 +149,21 @@ let backgroundColorDetails = {
 
 if (typeof browser !== 'undefined') {
     let activeTabPromise = browser.tabs.executeScript(script)
-        .then(getActiveTab);
+        .then(getActiveTab)
+        .catch(reportExecuteScriptError);
 
-    let computeScorePromise = activeTabPromise
+    let fetchFromStoragePromise = activeTabPromise
+        .then(fetchDataFromStorage)
+        .catch(reportExecuteScriptError);
+
+    let computeScorePromise = Promise.all([activeTabPromise, fetchFromStoragePromise])
         .then(fetchTabData)
-        .then(computeConfidenceScore);
+        .then(computeConfidenceScore)
+        .catch(reportExecuteScriptError);
+
+    Promise.all([activeTabPromise, computeScorePromise])
+        .then(storeData)
+        .catch(reportExecuteScriptError);
 
     Promise.all([activeTabPromise, computeScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
         .then(([tabs, data]) => displayConfidenceScore(data, tabs))
