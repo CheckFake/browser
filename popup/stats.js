@@ -58,12 +58,7 @@ function displayConfidenceScore(data, tabs) {
         tabId: tab.id,
         text: data.scores['confidence-score'].value.toString()
     };
-    if (typeof browser !== 'undefined') {
-        return browser.browserAction.setBadgeText(badgeDetails);
-    }
-    else {
-        chrome.browserAction.setBadgeText(badgeDetails);
-    }
+    return browser.browserAction.setBadgeText(badgeDetails);
 }
 
 /**
@@ -97,15 +92,7 @@ function fetchTabData([tabs, localData]) {
         data.fromLocalStorage = true;
         return data;
     }
-    if (typeof browser !== 'undefined') {
-        return browser.tabs.sendMessage(tab.id, {command: "fetchData"});
-    }
-    else {
-        chrome.tabs.sendMessage(tab.id, {command: "fetchData"}, data => {
-            data = computeConfidenceScore(data);
-            displayConfidenceScore(data, tabs);
-        });
-    }
+    return browser.tabs.sendMessage(tab.id, {command: "fetchData"});
 }
 
 /**
@@ -113,22 +100,16 @@ function fetchTabData([tabs, localData]) {
  */
 function getActiveTab() {
     let tabQuery = {active: true, currentWindow: true};
-    if (typeof browser !== 'undefined') {
-        return browser.tabs.query(tabQuery);
-    }
-    else {
-        chrome.tabs.query(tabQuery, fetchTabData)
-    }
+    return browser.tabs.query(tabQuery);
 }
 
 /**
  * There was an error executing the script.
  * Display the popup's error message, and hide the normal UI.
  */
-function reportExecuteScriptError(error) {
+function showErrorInPopup() {
     document.querySelector("#popup-content").classList.add("hidden");
     document.querySelector("#error-content").classList.remove("hidden");
-    console.error(`Failed to execute get_page_data content script: ${error.message}`);
 }
 
 /**
@@ -147,29 +128,44 @@ let backgroundColorDetails = {
     color: "#FFD729"
 };
 
-if (typeof browser !== 'undefined') {
-    let activeTabPromise = browser.tabs.executeScript(script)
-        .then(getActiveTab)
-        .catch(reportExecuteScriptError);
+browser.tabs.executeScript({file: "/libs/browser-polyfill.min.js"})
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error injecting polyfill script", error);
+    });
 
-    let fetchFromStoragePromise = activeTabPromise
-        .then(fetchDataFromStorage)
-        .catch(reportExecuteScriptError);
+let activeTabPromise = browser.tabs.executeScript(script)
+    .then(getActiveTab)
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error injecting extension script or retrieving active tab", error);
+    });
 
-    let computeScorePromise = Promise.all([activeTabPromise, fetchFromStoragePromise])
-        .then(fetchTabData)
-        .then(computeConfidenceScore)
-        .catch(reportExecuteScriptError);
+let fetchFromStoragePromise = activeTabPromise
+    .then(fetchDataFromStorage)
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error fetching from storage", error);
+    });
 
-    Promise.all([activeTabPromise, computeScorePromise])
-        .then(storeData)
-        .catch(reportExecuteScriptError);
+let computeScorePromise = Promise.all([activeTabPromise, fetchFromStoragePromise])
+    .then(fetchTabData)
+    .then(computeConfidenceScore)
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error computing score", error);
+    });
 
-    Promise.all([activeTabPromise, computeScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
-        .then(([tabs, data]) => displayConfidenceScore(data, tabs))
-        .catch(reportExecuteScriptError);
-}
-else {
-    chrome.browserAction.setBadgeBackgroundColor(backgroundColorDetails);
-    chrome.tabs.executeScript(script, getActiveTab);
-}
+Promise.all([activeTabPromise, computeScorePromise])
+    .then(storeData)
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error storing data", error);
+    });
+
+Promise.all([activeTabPromise, computeScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
+    .then(([tabs, data]) => displayConfidenceScore(data, tabs))
+    .catch(error => {
+        showErrorInPopup();
+        console.error("Error displaying score", error);
+    });
