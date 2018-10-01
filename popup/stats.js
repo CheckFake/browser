@@ -75,7 +75,7 @@ function fetchTabData(tabs) {
     else {
         chrome.tabs.sendMessage(tab.id, {command: "fetchData"}, data => {
             data = computeConfidenceScore(data);
-            displayConfidenceScore(data, tab);
+            displayConfidenceScore(data, tabs);
         });
     }
 }
