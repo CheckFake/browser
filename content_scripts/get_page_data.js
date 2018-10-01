@@ -30,18 +30,9 @@
      * Listen for messages from the background script.
      * Call "retrieveData()".
      */
-    if (typeof browser !== 'undefined') {
-        browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            if (message.command === "fetchData") {
-                sendResponse(retrieveData());
-            }
-        });
-    }
-    else {
-        chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-            if (message.command === "fetchData") {
-                sendResponse(retrieveData());
-            }
-        });
-    }
+    browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+        if (message.command === "fetchData") {
+            sendResponse(retrieveData());
+        }
+    });
 })();
