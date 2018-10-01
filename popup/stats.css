@@ -19,3 +19,8 @@ body {
 .hidden {
     display: none;
 }
+
+.feedback {
+    text-align: right;
+    font-size: 0.8rem;
+}
