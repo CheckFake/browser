@@ -1,3 +1,14 @@
+function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function getItemNameFromKey(key) {
+    let arr = key.split("_");
+    arr.pop();
+    arr = arr.join(" ");
+    return capitalizeFirstLetter(arr);
+}
+
 function displayConfidenceScore(data, tabs) {
     let tab = tabs[0];
 
@@ -9,7 +20,7 @@ function displayConfidenceScore(data, tabs) {
         .forEach(([key, score]) => {
             let line = document.createElement('tr');
             line.innerHTML = `<tr>
-                <th scope="row">${key}</th>
+                <th scope="row">${getItemNameFromKey(key)}</th>
                 <td id="${key}" class="score">${score}</td>
             </tr>`;
             tableScores.appendChild(line);
