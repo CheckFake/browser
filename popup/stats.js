@@ -42,7 +42,7 @@ function queryAPI(tabs) {
 }
 
 /**
- * Asks the content script for details about the page it's running on.
+ * Queries browser for the active tab.
  */
 function getActiveTab() {
     let tabQuery = {active: true, currentWindow: true};
