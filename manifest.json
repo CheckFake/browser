@@ -8,6 +8,7 @@
     "128": "icons/logo128.png"
   },
   "permissions": [
+    "https://fakenewsdetector.augendre.info/*",
     "activeTab",
     "storage"
   ],
