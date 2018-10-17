@@ -7,20 +7,59 @@
 </head>
 <body>
 <div class="container-fluid">
+    <div>
+        <div class="row">
+            <h1 class="col-12 popup-title">
+                <img src="../icons/logo.svg" height="48" width="48" alt="Logo"> OnlyTrue
+            </h1>
+        </div>
+        <hr>
+    </div>
     <div id="popup-content">
         <div class="row">
             <div class="col-12">
-                The confidence score for page <span id="page-name"></span>&nbsp;is
+                <strong>Page :</strong> <span id="page-url"></span>
             </div>
         </div>
-        <div class="row" id="confidence-score-wrapper">
+        <div class="row">
             <div class="col-12">
-                <span id="confidence-score"></span> / 100
+                <strong>Author :</strong> <span id="page-author"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <span id="confidence-score"></span>%
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <meter min="0" low="50" high="80" optimum="100" max="100" value="" title="%" id="confidence-meter"></meter>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h4>Category</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 categories-wrapper">
+                <div>
+                    <img src="https://via.placeholder.com/96x110">
+                    <p>Science</p>
+                </div>
+                <div>
+                    <img src="https://via.placeholder.com/96x96">
+                    <p>Politics</p>
+                </div>
+                <div>
+                    <img src="https://via.placeholder.com/110x80">
+                    <p>News</p>
+                </div>
             </div>
         </div>
         <div id="score-details" class="row">
             <div class="col-12">
-                <h5>Details</h5>
+                <h4>Details</h4>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered">
                         <thead>

@@ -25,3 +25,20 @@ body {
     text-align: right;
     font-size: 0.8rem;
 }
+
+.popup-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.7ex;
+}
+
+.popup-title img {
+    margin-right: 1ex;
+}
+
+.categories-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

@@ -12,8 +12,10 @@ function getItemNameFromKey(key) {
 function displayConfidenceScore(data, tabs) {
     let tab = tabs[0];
 
-    document.querySelector("#page-name").innerText = tab.title;
+    document.querySelector("#page-url").innerText = tab.url;
+    document.querySelector("#page-author").innerText = "Unknown";
     document.querySelector('#confidence-score').innerText = data.data.global_score;
+    document.querySelector('#confidence-meter').setAttribute("value", data.data.global_score);
     let tableScores = document.querySelector('#scores');
 
     Object.entries(data.data.scores)
