@@ -58,17 +58,6 @@ function showErrorInPopup() {
     document.querySelector("#error-content").classList.remove("hidden");
 }
 
-/**
- * Display/hide details about the score
- */
-function toggleScoreDetails() {
-    document.querySelector("#score-details").classList.toggle("hidden");
-}
-
-(function () {
-    document.querySelector("#confidence-score-wrapper").addEventListener('click', toggleScoreDetails);
-})();
-
 let backgroundColorDetails = {
     color: "#FFD729"
 };
