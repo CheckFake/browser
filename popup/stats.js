@@ -24,6 +24,9 @@ function displayConfidenceScore(data, tabs) {
         case 'politics':
             document.querySelector("#politics-icon").src = "../icons/colonnes_color.svg";
             break;
+        case 'news':
+            document.querySelector("#news-icon").src = "../icons/paper_color.svg";
+            break;
     }
 
     let tableScores = document.querySelector('#scores');
