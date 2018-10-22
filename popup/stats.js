@@ -16,8 +16,14 @@ function displayConfidenceScore(data, tabs) {
     document.querySelector("#page-author").innerText = "Unknown";
     document.querySelector('#confidence-score').innerText = data.data.global_score;
     document.querySelector('#confidence-meter').setAttribute("value", data.data.global_score);
-    let tableScores = document.querySelector('#scores');
 
+    switch (data.data.category) {
+        case 'science':
+            document.querySelector("#science-icon").src = "../icons/erlenmeyer_color.svg";
+            break;
+    }
+
+    let tableScores = document.querySelector('#scores');
     Object.entries(data.data.scores)
         .forEach(([key, score]) => {
             let line = document.createElement('tr');
