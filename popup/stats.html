@@ -18,22 +18,23 @@
     <div id="popup-content">
         <div class="row">
             <div class="col-12">
-                <strong>Page :</strong> <span id="page-url"></span>
+                <strong>Page :</strong> <span class="page-url"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <strong>Author :</strong> <span id="page-author"></span>
+                <strong>Author :</strong> <span class="page-author"></span>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <span id="confidence-score"></span>%
+                <span id="confidence-score" class="confidence-score"></span>%
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <meter min="0" low="50" high="80" optimum="100" max="100" value="" title="%" id="confidence-meter"></meter>
+                <meter min="0" low="50" high="80" optimum="100" max="100" value="" title="%"
+                       id="confidence-meter"></meter>
             </div>
         </div>
         <div class="row">
@@ -60,6 +61,12 @@
         <div id="score-details" class="row">
             <div class="col-12">
                 <h4>Details</h4>
+                <p>
+                    The page <span class="page-url emphasize"></span> was given a confidence score of
+                    <span class="confidence-score emphasize"></span>%.
+                    It belongs to the <span class="page-category emphasize"></span> category. <br>
+                    Here are the detailed scores :
+                </p>
                 <div class="table-responsive">
                     <table class="table table-sm table-hover table-bordered">
                         <thead>

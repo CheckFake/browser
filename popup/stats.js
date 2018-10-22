@@ -12,9 +12,15 @@ function getItemNameFromKey(key) {
 function displayConfidenceScore(data, tabs) {
     let tab = tabs[0];
 
-    document.querySelector("#page-url").innerText = tab.url;
-    document.querySelector("#page-author").innerText = "Unknown";
-    document.querySelector('#confidence-score').innerText = data.data.global_score;
+    for (let item of document.querySelectorAll(".page-url")) {
+        item.innerText = tab.url;
+    }
+    for (let item of document.querySelectorAll(".page-author")) {
+        item.innerText = "Unknown";
+    }
+    for (let item of document.querySelectorAll(".confidence-score")) {
+        item.innerText = data.data.global_score;
+    }
     document.querySelector('#confidence-meter').setAttribute("value", data.data.global_score);
 
     switch (data.data.category) {
@@ -27,6 +33,10 @@ function displayConfidenceScore(data, tabs) {
         case 'news':
             document.querySelector("#news-icon").src = "../icons/paper_color.svg";
             break;
+    }
+
+    for (let item of document.querySelectorAll(".page-category")) {
+        item.innerText = data.data.category;
     }
 
     let tableScores = document.querySelector('#scores');
