@@ -5,7 +5,7 @@
   "description": "/!\\ DISCLAIMER: IN HEAVY DEVELOPMENT/!\\\n\nDisplays a confidence score about an article that has been submitted to the extension.",
   "homepage_url": "https://github.com/Crocmagnon/fake-news-detector",
   "icons": {
-    "128": "icons/logo128.png"
+    "128": "icons/logo@2x.png"
   },
   "permissions": [
     "https://fakenewsdetector.augendre.info/*",
@@ -13,7 +13,7 @@
     "storage"
   ],
   "browser_action": {
-    "default_icon": "icons/logo128.png",
+    "default_icon": "icons/logo@2x.png",
     "default_title": "OnlyTrue",
     "default_popup": "popup/stats.html"
   },
