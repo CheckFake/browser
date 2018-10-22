@@ -1,4 +1,4 @@
-# Fake News Detector
+# OnlyTrue
 
 <img src="icons/logo.svg" alt="drawing" width="96"/>
 
