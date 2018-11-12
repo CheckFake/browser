@@ -23,22 +23,6 @@ function displayConfidenceScore(data, tabs) {
     }
     document.querySelector('#confidence-meter').setAttribute("value", data.data.global_score);
 
-    switch (data.data.category) {
-        case 'science':
-            document.querySelector("#science-icon").src = "../icons/erlenmeyer_color.svg";
-            break;
-        case 'politics':
-            document.querySelector("#politics-icon").src = "../icons/colonnes_color.svg";
-            break;
-        case 'news':
-            document.querySelector("#news-icon").src = "../icons/paper_color.svg";
-            break;
-    }
-
-    for (let item of document.querySelectorAll(".page-category")) {
-        item.innerText = data.data.category;
-    }
-
     let tableScores = document.querySelector('#scores');
     Object.entries(data.data.scores)
         .forEach(([key, score]) => {
