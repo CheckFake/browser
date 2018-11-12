@@ -33,6 +33,12 @@ function displayConfidenceScore(data, tabs) {
             </tr>`;
             tableScores.appendChild(line);
         });
+    let relatedArticlesList = document.querySelector('#related-articles');
+    for (let relatedArticle of data.data.related_articles_selection) {
+        let item = document.createElement('li');
+        item.innerHTML = `<li><a href="${relatedArticle.url}">${relatedArticle.publisher} - ${relatedArticle.title}</a></li>`;
+        relatedArticlesList.appendChild(item);
+    }
 
     let badgeDetails = {
         tabId: tab.id,

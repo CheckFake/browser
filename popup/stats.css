@@ -6,6 +6,10 @@ body {
     max-width: 700px;
 }
 
+#related-articles {
+    text-align: left;
+}
+
 .emphasize {
     font-weight: bold;
 }
