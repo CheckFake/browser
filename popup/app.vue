@@ -26,7 +26,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <meter min="0" low="50" high="80" optimum="100" max="100" v-bind:value="confidenceScore" title="%"
+                    <meter min="0" low="40" high="70" optimum="100" max="100" v-bind:value="confidenceScore" title="%"
                            id="confidence-meter"></meter>
                 </div>
             </div>
