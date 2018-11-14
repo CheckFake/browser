@@ -45,7 +45,9 @@
                     <h4>Scoring details</h4>
                     <p>
                         The page was given a confidence score of
-                        <span class="emphasize">{{ confidenceScore }}%</span>. This score was computed by analyzing {{ totalArticles }} other article(s).<br>
+                        <span class="emphasize">{{ confidenceScore }}%</span>.
+                        This score was computed by analyzing
+                        <span class="emphasize">{{ totalArticles }}</span> other article(s).<br>
                         Here are the detailed scores :
                     </p>
                     <div class="table-responsive">
