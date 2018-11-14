@@ -6,76 +6,9 @@
     <link rel="stylesheet" href="stats.css"/>
 </head>
 <body>
-<div class="container-fluid">
-    <div>
-        <div class="row">
-            <h1 class="col-12 popup-title">
-                <img src="../icons/logo.svg" height="48" width="48" alt="Logo"> OnlyTrue
-            </h1>
-        </div>
-        <hr>
-    </div>
-    <div id="popup-content">
-        <div class="row">
-            <div class="col-12">
-                <strong>Page :</strong> <span class="page-url"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <strong>Author :</strong> <span class="page-author"></span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <span id="confidence-score" class="confidence-score"></span>%
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <meter min="0" low="50" high="80" optimum="100" max="100" value="" title="%"
-                       id="confidence-meter"></meter>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-12">
-                <h4>Related articles</h4>
-                <ul id="related-articles"></ul>
-            </div>
-        </div>
-        <hr>
-        <div id="score-details" class="row">
-            <div class="col-12">
-                <h4>Scoring details</h4>
-                <p>
-                    The page was given a confidence score of
-                    <span class="confidence-score emphasize"></span>%.<br>
-                    Here are the detailed scores :
-                </p>
-                <div class="table-responsive">
-                    <table class="table table-sm table-hover table-bordered">
-                        <thead>
-                        <tr>
-                            <th scope="col">Item</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                        </thead>
-                        <tbody id="scores">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="error-content" class="hidden">
-        Couldn't fetch page data.
-    </div>
-    <div class="feedback">
-        <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new">Give feedback</a>
-    </div>
+<div id="vue-app">
 </div>
 <script type="application/javascript" src="/libs/browser-polyfill.min.js"></script>
-<script type="application/javascript" src="stats.js"></script>
+<script type="application/javascript" src="dist/stats.js"></script>
 </body>
 </html>

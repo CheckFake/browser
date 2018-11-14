@@ -1,0 +1,28 @@
+{
+  "name": "fake_news_detector",
+  "version": "1.0.0",
+  "description": "<img src=\"icons/logo.svg\" alt=\"drawing\" width=\"96\"/>",
+  "main": "popup/stats.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnlyTrue-FND/browser.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OnlyTrue-FND/browser/issues"
+  },
+  "homepage": "https://github.com/OnlyTrue-FND/browser#readme",
+  "devDependencies": {
+    "laravel-mix": "^2.1.14",
+    "vue": "^2.5.17"
+  }
+}

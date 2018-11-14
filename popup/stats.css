@@ -18,7 +18,7 @@ body {
     text-align: center;
 }
 
-#confidence-score {
+.confidence-score {
     font-size: 20pt;
 }
 

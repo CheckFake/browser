@@ -83,3 +83,4 @@ fabric.properties
 
 # End of https://www.gitignore.io/api/osx,webstorm
 fake_news_detector.zip
+node_modules
