@@ -6,7 +6,7 @@ body {
     max-width: 700px;
 }
 
-#related-articles {
+.list {
     text-align: left;
 }
 

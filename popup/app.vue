@@ -8,7 +8,13 @@
             </div>
             <hr>
         </div>
-        <div id="popup-content">
+        <div id="error-content" v-if="errors.length > 0">
+            <h4>Errors</h4>
+            <ul class="list">
+                <li v-for="error in errors">{{ error }}</li>
+            </ul>
+        </div>
+        <div id="popup-content" v-else>
             <div class="row">
                 <div class="col-12">
                     <strong>Page :</strong> {{ page.url }}
@@ -34,7 +40,7 @@
             <div class="row">
                 <div class="col-12">
                     <h4>Related articles</h4>
-                    <ul id="related-articles">
+                    <ul class="list">
                         <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }} - {{ article.title }}</a></li>
                     </ul>
                 </div>
@@ -69,9 +75,6 @@
                 </div>
             </div>
         </div>
-        <div id="error-content" class="hidden">
-            Couldn't fetch page data.
-        </div>
         <div class="feedback">
             <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new">Give feedback</a>
         </div>
@@ -89,6 +92,7 @@
                 relatedArticles: [],
                 scores: [],
                 totalArticles: null,
+                errors: []
             }
         },
         methods: {
@@ -117,6 +121,10 @@
                     text: data.data.global_score.toString()
                 };
                 return browser.browserAction.setBadgeText(badgeDetails);
+            },
+            displayError(message, error) {
+                this.errors.push(`${message} : ${error}`);
+                console.error(message, error);
             }
         },
         created() {
@@ -136,23 +144,14 @@
                 return browser.tabs.query(tabQuery);
             }
 
-            /**
-             * There was an error executing the script.
-             * Display the popup's error message, and hide the normal UI.
-             */
-            function showErrorInPopup() {
-                document.querySelector("#popup-content").classList.add("hidden");
-                document.querySelector("#error-content").classList.remove("hidden");
-            }
-
             let backgroundColorDetails = {
                 color: "#FFD729"
             };
 
             let activeTabPromise = getActiveTab()
                 .catch(error => {
-                    showErrorInPopup();
-                    console.error("Error getting active tab", error);
+                    let message = 'Error getting active tab';
+                    this.displayError(message, error);
                 });
 
             let getScorePromise = activeTabPromise
@@ -160,16 +159,22 @@
                 .then(response => {
                     return response.json();
                 })
+                .then(data => {
+                    if (data.status !== 'success') {
+                        throw data.data.message;
+                    }
+                    return data;
+                })
                 .catch(error => {
-                    showErrorInPopup();
-                    console.error("Error computing score", error);
+                    let message = 'Error computing score';
+                    this.displayError(message, error);
                 });
 
             Promise.all([activeTabPromise, getScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
                 .then(([tabs, data]) => this.displayConfidenceScore(data, tabs))
                 .catch(error => {
-                    showErrorInPopup();
-                    console.error("Error displaying score", error);
+                    let message = 'Error displaying score';
+                    this.displayError(message, error);
                 });
 
         }
