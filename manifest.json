@@ -3,7 +3,7 @@
   "name": "OnlyTrue",
   "version": "2.3.0",
   "description": "/!\\ DISCLAIMER: IN HEAVY DEVELOPMENT/!\\\n\nDisplays a confidence score about an article that has been submitted to the extension.",
-  "homepage_url": "https://github.com/Crocmagnon/fake-news-detector",
+  "homepage_url": "https://github.com/OnlyTrue-FND/browser",
   "icons": {
     "128": "icons/logo@2x.png"
   },
