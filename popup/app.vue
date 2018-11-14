@@ -45,7 +45,7 @@
                     <h4>Scoring details</h4>
                     <p>
                         The page was given a confidence score of
-                        <span class="emphasize">{{ confidenceScore }}%</span>.<br>
+                        <span class="emphasize">{{ confidenceScore }}%</span>. This score was computed by analyzing {{ totalArticles }} other article(s).<br>
                         Here are the detailed scores :
                     </p>
                     <div class="table-responsive">
@@ -85,7 +85,8 @@
                 },
                 confidenceScore: null,
                 relatedArticles: [],
-                scores: []
+                scores: [],
+                totalArticles: null,
             }
         },
         methods: {
@@ -107,6 +108,7 @@
 
                 this.scores = data.data.scores;
                 this.relatedArticles = data.data.related_articles_selection;
+                this.totalArticles = data.data.total_articles;
 
                 let badgeDetails = {
                     tabId: tab.id,
