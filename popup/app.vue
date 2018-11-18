@@ -61,8 +61,14 @@
                 <div class="col-12">
                     <h4>Détails de la notation</h4>
                     <p>
-                        Le score attribué à la page a été calculé en analysant
-                        <span class="emphasize">{{ totalArticles }}</span> autre(s) article(s).<br>
+                        Le score attribué <strong>à la page</strong> a été calculé en analysant
+                        <strong>{{ totalArticles }}</strong>
+                        {{ pluralize("autre", totalArticles) }}
+                        {{ pluralize("article", totalArticles) }}.<br>
+                        Le score attribué <strong>au site</strong> a été calculé par l'analyse précédente de
+                        <strong>{{ siteScoreArticlesCount }}</strong>
+                        {{ pluralize("autre", siteScoreArticlesCount) }}
+                        {{ pluralize("article", siteScoreArticlesCount) }}.<br>
                         Voici le détail des scores :
                     </p>
                     <div class="table-responsive">
@@ -101,6 +107,7 @@
                 relatedArticles: [],
                 scores: [],
                 totalArticles: null,
+                siteScoreArticlesCount: null,
                 errors: []
             }
         },
@@ -167,6 +174,7 @@
                 this.scores = data.data.scores;
                 this.relatedArticles = data.data.related_articles_selection;
                 this.totalArticles = data.data.total_articles;
+                this.siteScoreArticlesCount = data.data.site_score_articles_count;
 
                 return {
                     color: {
@@ -182,6 +190,15 @@
             displayError(message, error) {
                 this.errors.push(`${message} : ${error}`);
                 console.error(message, error);
+            },
+            pluralize(word, count, suffix) {
+                if (!suffix) {
+                    suffix = 's';
+                }
+                if (count > 1) {
+                    return word + suffix;
+                }
+                return word
             }
         },
         created() {
