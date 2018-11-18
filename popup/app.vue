@@ -10,6 +10,9 @@
         </div>
         <div id="error-content" v-if="errors.length > 0">
             <h4>Errors</h4>
+            <p>Les erreurs seront probablement affichées en anglais.
+                Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
+                alors que vous pensiez obtenir un résultat.</p>
             <ul class="list">
                 <li v-for="error in errors">{{ error }}</li>
             </ul>
@@ -22,7 +25,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <strong>Author :</strong> {{ page.author }}
+                    <strong>Auteur :</strong> {{ page.author }}
                 </div>
             </div>
             <div class="row">
@@ -39,7 +42,7 @@
             <hr>
             <div class="row">
                 <div class="col-12">
-                    <h4>Related articles</h4>
+                    <h4>Articles connexes</h4>
                     <ul class="list">
                         <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }} - {{ article.title }}</a></li>
                     </ul>
@@ -48,19 +51,19 @@
             <hr>
             <div id="score-details" class="row">
                 <div class="col-12">
-                    <h4>Scoring details</h4>
+                    <h4>Détails de la notation</h4>
                     <p>
-                        The page was given a confidence score of
+                        Cette page a reçu un score de confiance de
                         <span class="emphasize">{{ confidenceScore }}%</span>.
-                        This score was computed by analyzing
-                        <span class="emphasize">{{ totalArticles }}</span> other article(s).<br>
-                        Here are the detailed scores :
+                        Ce score a été calculé en analysant
+                        <span class="emphasize">{{ totalArticles }}</span> autre(s) article(s).<br>
+                        Voici le détail des scores :
                     </p>
                     <div class="table-responsive">
                         <table class="table table-sm table-hover table-bordered">
                             <thead>
                             <tr>
-                                <th scope="col">Item</th>
+                                <th scope="col">Élément</th>
                                 <th scope="col">Score</th>
                             </tr>
                             </thead>
@@ -100,10 +103,15 @@
                 let arr = key.split("_");
                 arr.pop();
                 arr = arr.join(" ");
-                return this.capitalizeFirstLetter(arr);
-            },
-            capitalizeFirstLetter(str) {
-                return str.charAt(0).toUpperCase() + str.slice(1);
+                switch (arr) {
+                    case "content":
+                        arr = "Contenu";
+                        break;
+                    case "site":
+                        arr = "Nom de domaine";
+                        break;
+                }
+                return arr;
             },
             displayConfidenceScore(data, tabs) {
                 let tab = tabs[0];
