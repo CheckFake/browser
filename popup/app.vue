@@ -20,6 +20,11 @@
         <div id="popup-content" v-else>
             <div class="row">
                 <div class="col-12">
+                    <h4>Informations générales</h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
                     <strong>Page :</strong> {{ page.url }}
                 </div>
             </div>
@@ -28,15 +33,18 @@
                     <strong>Auteur :</strong> {{ page.author }}
                 </div>
             </div>
+            <hr>
             <div class="row">
                 <div class="col-12">
-                    <span class="confidence-score">{{ confidenceScore }}</span>%
+                    <h4>Niveau de confiance</h4>
+                    <p>
+                        <a href="#">Lien vers les correspondances couleur/niveau de confiance.</a>
+                    </p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <meter min="0" low="40" high="70" optimum="100" max="100" v-bind:value="confidenceScore" title="%"
-                           id="confidence-meter"></meter>
+                    <div class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore()"></div>
                 </div>
             </div>
             <hr>
@@ -53,9 +61,7 @@
                 <div class="col-12">
                     <h4>Détails de la notation</h4>
                     <p>
-                        Cette page a reçu un score de confiance de
-                        <span class="emphasize">{{ confidenceScore }}%</span>.
-                        Ce score a été calculé en analysant
+                        Le score attribué à la page a été calculé en analysant
                         <span class="emphasize">{{ totalArticles }}</span> autre(s) article(s).<br>
                         Voici le détail des scores :
                     </p>
@@ -113,6 +119,44 @@
                 }
                 return arr;
             },
+            colorClassFromConfidenceScore() {
+                let cls = null;
+                if (this.confidenceScore >= 80) {
+                    cls = "good"
+                }
+                else if (this.confidenceScore >= 60) {
+                    cls = "not-so-good"
+                }
+                else if (this.confidenceScore >= 40) {
+                    cls = "meh"
+                }
+                else if (this.confidenceScore >= 20) {
+                    cls = "not-so-bad"
+                }
+                else if (this.confidenceScore >= 0) {
+                    cls = "bad"
+                }
+                else {
+                    cls = null;
+                }
+                return cls;
+            },
+            colorFromConfidenceScore() {
+                let cls = this.colorClassFromConfidenceScore();
+                switch (cls) {
+                    case "good":
+                        return "#007a1c";
+                    case "not-so-good":
+                        return "#bbff00";
+                    case "meh":
+                        return "#ffee00";
+                    case "not-so-bad":
+                        return "#f29646";
+                    case "bad":
+                        return "#b61a20";
+                }
+                return cls
+            },
             displayConfidenceScore(data, tabs) {
                 let tab = tabs[0];
 
@@ -124,11 +168,16 @@
                 this.relatedArticles = data.data.related_articles_selection;
                 this.totalArticles = data.data.total_articles;
 
-                let badgeDetails = {
-                    tabId: tab.id,
-                    text: data.data.global_score.toString()
+                return {
+                    color: {
+                        color: this.colorFromConfidenceScore(),
+                        tabId: tab.id,
+                    },
+                    text: {
+                        tabId: tab.id,
+                        text: " "
+                    }
                 };
-                return browser.browserAction.setBadgeText(badgeDetails);
             },
             displayError(message, error) {
                 this.errors.push(`${message} : ${error}`);
@@ -152,10 +201,6 @@
                 return browser.tabs.query(tabQuery);
             }
 
-            let backgroundColorDetails = {
-                color: "#FFD729"
-            };
-
             let activeTabPromise = getActiveTab()
                 .catch(error => {
                     let message = 'Error getting active tab';
@@ -178,12 +223,16 @@
                     this.displayError(message, error);
                 });
 
-            Promise.all([activeTabPromise, getScorePromise, browser.browserAction.setBadgeBackgroundColor(backgroundColorDetails)])
+            let badgeDetailsPromise = Promise.all([activeTabPromise, getScorePromise])
                 .then(([tabs, data]) => this.displayConfidenceScore(data, tabs))
                 .catch(error => {
                     let message = 'Error displaying score';
                     this.displayError(message, error);
                 });
+            badgeDetailsPromise
+                .then(details => browser.browserAction.setBadgeBackgroundColor(details.color));
+            badgeDetailsPromise
+                .then(details => browser.browserAction.setBadgeText(details.text));
 
         }
     }

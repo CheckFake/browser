@@ -51,3 +51,27 @@ body {
     justify-content: space-around;
     align-items: center;
 }
+
+.confidence-score-box {
+    min-height: 2em;
+}
+
+.good {
+    background-color: #007a1c;
+}
+
+.not-so-good {
+    background-color: #bbff00;
+}
+
+.meh {
+    background-color: #ffee00;
+}
+
+.not-so-bad {
+    background-color: #f29646;
+}
+
+.bad {
+    background-color: #b61a20;
+}
