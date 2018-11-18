@@ -161,7 +161,7 @@
                 let tab = tabs[0];
 
                 this.page.url = tab.url;
-                this.page.author = "Unknown";
+                this.page.author = "Inconnu";
                 this.confidenceScore = data.data.global_score;
 
                 this.scores = data.data.scores;
