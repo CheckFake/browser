@@ -79,7 +79,7 @@
             </div>
         </div>
         <div class="feedback">
-            <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new">Give feedback</a>
+            <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new">Signaler un problème</a>
         </div>
     </div>
 </template>
