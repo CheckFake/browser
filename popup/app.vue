@@ -73,7 +73,7 @@
                         {{ pluralize("autre", totalArticles) }}
                         {{ pluralize("article", totalArticles) }}.<br>
                         Le score attribué <strong>au site</strong> a été calculé par l'analyse précédente de
-                        <strong>{{ siteScoreArticlesCount }}</strong>
+                        <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                         {{ pluralize("autre", siteScoreArticlesCount) }}
                         {{ pluralize("article", siteScoreArticlesCount) }}.<br>
                         Voici le détail des scores :
