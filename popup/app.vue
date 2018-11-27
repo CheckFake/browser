@@ -44,7 +44,11 @@
             </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore()"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')"></span>
                 </div>
             </div>
             <hr>
@@ -134,7 +138,16 @@
                 }
                 return arr;
             },
-            colorClassFromConfidenceScore() {
+            /**
+             * Returns a color class for the given score. A pastilleColor may be given.
+             * If the pastileColor parameter is not given, it will return the color class to apply.
+             * If it's given, it will return either the color class to apply,
+             * or gray if the pastilleColor and the generated color class don't match.
+             *
+             * @param {string, null} pastilleColor
+             * @returns {string}
+             */
+            colorClassFromConfidenceScore(pastilleColor) {
                 let cls = null;
                 if (this.confidenceScore >= 80) {
                     cls = "good"
@@ -154,7 +167,13 @@
                 else {
                     cls = null;
                 }
-                return cls;
+                if (!pastilleColor) {
+                    return cls;
+                }
+                if (pastilleColor === cls) {
+                    return cls;
+                }
+                return 'grey';
             },
             colorFromConfidenceScore() {
                 let cls = this.colorClassFromConfidenceScore();
