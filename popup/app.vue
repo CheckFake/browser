@@ -51,6 +51,12 @@
             <div class="row">
                 <div class="col-12">
                     <h4>Articles connexes</h4>
+                    <p>
+                        {{ interestingRelatedArticlesCount }} {{ pluralize("autre", interestingRelatedArticlesCount) }}
+                        {{ pluralize("article", interestingRelatedArticlesCount) }} parmi ceux que nous avons analysé
+                        {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }} {{ pluralize("similaire", interestingRelatedArticlesCount) }}
+                        à votre article. En voici {{ relatedArticles.length }}
+                    </p>
                     <ul class="list">
                         <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }} - {{ article.title }}</a></li>
                     </ul>
@@ -108,6 +114,7 @@
                 scores: [],
                 totalArticles: null,
                 siteScoreArticlesCount: null,
+                interestingRelatedArticlesCount: null,
                 errors: []
             }
         },
@@ -175,6 +182,7 @@
                 this.relatedArticles = data.data.related_articles_selection;
                 this.totalArticles = data.data.total_articles;
                 this.siteScoreArticlesCount = data.data.site_score_articles_count;
+                this.interestingRelatedArticlesCount = data.data.interesting_related_articles_count;
 
                 return {
                     color: {
@@ -191,11 +199,11 @@
                 this.errors.push(`${message} : ${error}`);
                 console.error(message, error);
             },
-            pluralize(word, count, suffix) {
-                if (!suffix) {
-                    suffix = 's';
+            pluralize(word, count, suffix='s', replace=false) {
+                if (replace && count > 1) {
+                    return suffix
                 }
-                if (count > 1) {
+                else if (count > 1) {
                     return word + suffix;
                 }
                 return word
