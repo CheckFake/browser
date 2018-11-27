@@ -9,6 +9,7 @@
   },
   "permissions": [
     "https://fakenewsdetector.augendre.info/*",
+    "http://localhost:8000/*",
     "activeTab",
     "storage"
   ],

@@ -52,10 +52,11 @@
                 <div class="col-12">
                     <h4>Articles connexes</h4>
                     <p>
-                        {{ interestingRelatedArticlesCount }} {{ pluralize("autre", interestingRelatedArticlesCount) }}
-                        {{ pluralize("article", interestingRelatedArticlesCount) }} parmi ceux que nous avons analysé
-                        {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }} {{ pluralize("similaire", interestingRelatedArticlesCount) }}
-                        à votre article. En voici {{ relatedArticles.length }}
+                        {{ interestingRelatedArticlesCount }}
+                        {{ pluralize("article", interestingRelatedArticlesCount) }} parmi ceux que nous avons analysés
+                        {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }}
+                        {{ pluralize("similaire", interestingRelatedArticlesCount) }}
+                        à votre article. En voici {{ relatedArticles.length }} :
                     </p>
                     <ul class="list">
                         <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }} - {{ article.title }}</a></li>
@@ -215,7 +216,7 @@
              */
             function queryAPI(tabs) {
                 let url = encodeURIComponent(tabs[0].url);
-                return fetch(`https://fakenewsdetector.augendre.info/api/page?url=${url}`);
+                return fetch(`http://localhost:8000/api/page?url=${url}`);
             }
 
             /**
