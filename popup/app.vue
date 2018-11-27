@@ -235,7 +235,7 @@
              */
             function queryAPI(tabs) {
                 let url = encodeURIComponent(tabs[0].url);
-                return fetch(`http://localhost:8000/api/page?url=${url}`);
+                return fetch(`https://fakenewsdetector.augendre.info/api/page?url=${url}`);
             }
 
             /**
