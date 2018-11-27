@@ -44,11 +44,11 @@
             </div>
             <div class="row">
                 <div class="col-12 text-center">
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')"></span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')"></span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')"></span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')"></span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')"></span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')">3</span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')">4</span>
+                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')">5</span>
                 </div>
             </div>
             <hr>
