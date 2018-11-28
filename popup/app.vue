@@ -38,7 +38,7 @@
                 <div class="col-12">
                     <h4>Niveau de confiance</h4>
                     <p>
-                        <a href="#">Lien vers les correspondances couleur/niveau de confiance.</a>
+                        <a href="https://github.com/OnlyTrue-FND/api/wiki/Correspondance-entre-les-couleurs-et-les-niveaux-de-confiance">Plus d'informations sur la correspondance couleur/niveau de confiance.</a>
                     </p>
                 </div>
             </div>
@@ -80,6 +80,7 @@
                         <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                         {{ pluralize("autre", siteScoreArticlesCount) }}
                         {{ pluralize("article", siteScoreArticlesCount) }}.<br>
+                        <a href="https://github.com/OnlyTrue-FND/api/wiki/Calcul-du-score">Plus de détails sur la méthode de calcul</a><br>
                         Voici le détail des scores :
                     </p>
                     <div class="table-responsive">
