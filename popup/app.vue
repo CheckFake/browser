@@ -35,20 +35,13 @@
             </div>
             <hr>
             <div class="row">
-                <div class="col-12">
-                    <h4>Niveau de confiance</h4>
-                    <p>
-                        <a href="https://github.com/OnlyTrue-FND/api/wiki/Correspondance-entre-les-couleurs-et-les-niveaux-de-confiance">Plus d'informations sur la correspondance couleur/niveau de confiance.</a>
-                    </p>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-12 text-center">
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')">3</span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')">4</span>
-                    <span class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')">5</span>
+                    <h4>Niveau de confiance</h4>
+                    <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
+                    <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
+                    <span title="Contenu incertain" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')">3</span>
+                    <span title="Fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')">4</span>
+                    <span title="Très fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')">5</span>
                 </div>
             </div>
             <hr>
