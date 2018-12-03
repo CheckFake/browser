@@ -19,19 +19,11 @@
         </div>
         <div id="popup-content" v-else>
             <div class="row">
-                <div class="col-12">
-                    <h4>Informations générales</h4>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <strong>Page :</strong> {{ page.url }}
-                </div>
-            </div>
-            <hr>
-            <div class="row">
                 <div class="col-12 text-center">
                     <h4>Niveau de confiance</h4>
+                    <p>
+                        <strong>Page :</strong> {{ page.title }}
+                    </p>
                     <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
                     <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
                     <span title="Contenu incertain" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')">3</span>
@@ -100,7 +92,7 @@
         data() {
             return {
                 page: {
-                    url: null,
+                    title: null,
                 },
                 confidenceScore: null,
                 relatedArticles: [],
@@ -181,8 +173,7 @@
             },
             displayConfidenceScore(data, tabs) {
                 let tab = tabs[0];
-
-                this.page.url = tab.url;
+                this.page.title = tab.title;
                 this.confidenceScore = data.data.global_score;
 
                 this.scores = data.data.scores;
