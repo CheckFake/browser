@@ -22,7 +22,7 @@
                 <div class="col-12 text-center">
                     <h4>Niveau de confiance</h4>
                     <p>
-                        <strong>Page :</strong> {{ page.title }}
+                        <strong>Titre :</strong> {{ page.title }}
                     </p>
                     <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
                     <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
