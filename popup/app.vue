@@ -28,11 +28,6 @@
                     <strong>Page :</strong> {{ page.url }}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <strong>Auteur :</strong> {{ page.author }}
-                </div>
-            </div>
             <hr>
             <div class="row">
                 <div class="col-12 text-center">
@@ -106,7 +101,6 @@
             return {
                 page: {
                     url: null,
-                    author: null
                 },
                 confidenceScore: null,
                 relatedArticles: [],
@@ -189,7 +183,6 @@
                 let tab = tabs[0];
 
                 this.page.url = tab.url;
-                this.page.author = "Inconnu";
                 this.confidenceScore = data.data.global_score;
 
                 this.scores = data.data.scores;
