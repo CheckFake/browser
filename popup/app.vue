@@ -262,7 +262,10 @@
             let getScorePromise = activeTabPromise
                 .then(queryAPI)
                 .then(response => {
-                    return response.json();
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw "Error 500 from server"
                 })
                 .then(data => {
                     if (data.status !== 'success') {
