@@ -56,7 +56,7 @@
                         <strong>{{ totalArticles }}</strong>
                         {{ pluralize("autre", totalArticles) }}
                         {{ pluralize("article", totalArticles) }}.<br>
-                        Le score attribué <strong>au nom de domaine</strong> a été calculé par l'analyse précédente de
+                        Le score attribué <strong>au site</strong> a été calculé par l'analyse précédente de
                         <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                         {{ pluralize("autre", siteScoreArticlesCount) }}
                         {{ pluralize("article", siteScoreArticlesCount) }}.<br>
@@ -119,7 +119,7 @@
                         arr = "Contenu";
                         break;
                     case "site":
-                        arr = "Nom de domaine";
+                        arr = "Site";
                         break;
                 }
                 return arr;
