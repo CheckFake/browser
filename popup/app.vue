@@ -20,6 +20,9 @@
                 <div class="sk-cube sk-cube8"></div>
                 <div class="sk-cube sk-cube9"></div>
             </div>
+            Merci de patienter, nous analysons votre article. Le temps de traitement peut varier
+            de quelques dizaines de secondes à plusieurs minutes. Vous pouvez fermer cette popup et la rouvrir plus
+            tard.
         </div>
         <div v-if="!loading">
             <div id="error-content" v-if="errors.length > 0">
