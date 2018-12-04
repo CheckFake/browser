@@ -24,11 +24,11 @@
                     <p>
                         <strong>Titre :</strong> {{ page.title }}
                     </p>
-                    <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('bad')">1</span>
-                    <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-bad')">2</span>
-                    <span title="Contenu incertain" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('meh')">3</span>
-                    <span title="Fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('not-so-good')">4</span>
-                    <span title="Très fiable" class="confidence-score-box" v-bind:class="colorClassFromConfidenceScore('good')">5</span>
+                    <span title="Très peu fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'bad')">1</span>
+                    <span title="Peu fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-bad')">2</span>
+                    <span title="Contenu incertain" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'meh')">3</span>
+                    <span title="Fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-good')">4</span>
+                    <span title="Très fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'good')">5</span>
                 </div>
             </div>
             <hr>
@@ -52,7 +52,7 @@
                 <div class="col-12">
                     <h4>Détails de la notation</h4>
                     <p>
-                        Le score attribué <strong>à la page</strong> a été calculé en analysant
+                        Le score attribué <strong>au contenu</strong> a été calculé en analysant
                         <strong>{{ totalArticles }}</strong>
                         {{ pluralize("autre", totalArticles) }}
                         {{ pluralize("article", totalArticles) }}.<br>
@@ -74,7 +74,13 @@
                             <tbody id="scores">
                             <tr v-for="(score, key) in scores">
                                 <th scope="row">{{ getItemNameFromKey(key) }}</th>
-                                <td v-bind:id="key" class="score">{{ score }}</td>
+                                <td v-bind:id="key" class="score">
+                                    <span title="Très peu fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'bad')">1</span>
+                                    <span title="Peu fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'not-so-bad')">2</span>
+                                    <span title="Contenu incertain" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'meh')">3</span>
+                                    <span title="Fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'not-so-good')">4</span>
+                                    <span title="Très fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'good')">5</span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -113,7 +119,7 @@
                         arr = "Contenu";
                         break;
                     case "site":
-                        arr = "Nom de domaine";
+                        arr = "Site";
                         break;
                 }
                 return arr;
@@ -124,24 +130,25 @@
              * If it's given, it will return either the color class to apply,
              * or gray if the pastilleColor and the generated color class don't match.
              *
+             * @param {number} score
              * @param {string, null} pastilleColor
              * @returns {string}
              */
-            colorClassFromConfidenceScore(pastilleColor) {
+            colorClassFromScore(score, pastilleColor=null) {
                 let cls = null;
-                if (this.confidenceScore >= 80) {
+                if (score >= 80) {
                     cls = "good"
                 }
-                else if (this.confidenceScore >= 60) {
+                else if (score >= 60) {
                     cls = "not-so-good"
                 }
-                else if (this.confidenceScore >= 40) {
+                else if (score >= 40) {
                     cls = "meh"
                 }
-                else if (this.confidenceScore >= 20) {
+                else if (score >= 20) {
                     cls = "not-so-bad"
                 }
-                else if (this.confidenceScore >= 0) {
+                else if (score >= 0) {
                     cls = "bad"
                 }
                 else {
@@ -156,7 +163,7 @@
                 return 'grey';
             },
             colorFromConfidenceScore() {
-                let cls = this.colorClassFromConfidenceScore();
+                let cls = this.colorClassFromScore(this.confidenceScore);
                 switch (cls) {
                     case "good":
                         return "#007a1c";
