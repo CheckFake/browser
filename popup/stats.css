@@ -53,15 +53,26 @@ body {
 }
 
 .confidence-score-box {
-    display: inline-block;
     width: 40px;
     height: 40px;
+    line-height: 40px;
     border-radius: 20px;
     font-size: 20px;
+}
+
+.score-box {
+    display: inline-block;
     color: #fff;
-    line-height: 40px;
     text-align: center;
     background: #000
+}
+
+.details-score-box {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    border-radius: 15px;
+    font-size: 15px;
 }
 
 .good {

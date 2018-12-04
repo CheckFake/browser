@@ -24,11 +24,11 @@
                     <p>
                         <strong>Titre :</strong> {{ page.title }}
                     </p>
-                    <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'bad')">1</span>
-                    <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-bad')">2</span>
-                    <span title="Contenu incertain" class="confidence-score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'meh')">3</span>
-                    <span title="Fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-good')">4</span>
-                    <span title="Très fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'good')">5</span>
+                    <span title="Très peu fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'bad')">1</span>
+                    <span title="Peu fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-bad')">2</span>
+                    <span title="Contenu incertain" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'meh')">3</span>
+                    <span title="Fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-good')">4</span>
+                    <span title="Très fiable" class="confidence-score-box score-box" v-bind:class="colorClassFromScore(this.confidenceScore, 'good')">5</span>
                 </div>
             </div>
             <hr>
@@ -75,11 +75,11 @@
                             <tr v-for="(score, key) in scores">
                                 <th scope="row">{{ getItemNameFromKey(key) }}</th>
                                 <td v-bind:id="key" class="score">
-                                    <span title="Très peu fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(score, 'bad')">1</span>
-                                    <span title="Peu fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(score, 'not-so-bad')">2</span>
-                                    <span title="Contenu incertain" class="confidence-score-box" v-bind:class="colorClassFromScore(score, 'meh')">3</span>
-                                    <span title="Fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(score, 'not-so-good')">4</span>
-                                    <span title="Très fiable" class="confidence-score-box" v-bind:class="colorClassFromScore(score, 'good')">5</span>
+                                    <span title="Très peu fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'bad')">1</span>
+                                    <span title="Peu fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'not-so-bad')">2</span>
+                                    <span title="Contenu incertain" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'meh')">3</span>
+                                    <span title="Fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'not-so-good')">4</span>
+                                    <span title="Très fiable" class="details-score-box score-box" v-bind:class="colorClassFromScore(score, 'good')">5</span>
                                 </td>
                             </tr>
                             </tbody>
