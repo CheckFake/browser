@@ -52,11 +52,11 @@
                 <div class="col-12">
                     <h4>Détails de la notation</h4>
                     <p>
-                        Le score attribué <strong>à la page</strong> a été calculé en analysant
+                        Le score attribué <strong>au contenu</strong> a été calculé en analysant
                         <strong>{{ totalArticles }}</strong>
                         {{ pluralize("autre", totalArticles) }}
                         {{ pluralize("article", totalArticles) }}.<br>
-                        Le score attribué <strong>au site</strong> a été calculé par l'analyse précédente de
+                        Le score attribué <strong>au nom de domaine</strong> a été calculé par l'analyse précédente de
                         <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                         {{ pluralize("autre", siteScoreArticlesCount) }}
                         {{ pluralize("article", siteScoreArticlesCount) }}.<br>
