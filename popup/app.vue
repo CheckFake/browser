@@ -63,9 +63,10 @@
                             analysés
                             {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }}
                             {{ pluralize("similaire", interestingRelatedArticlesCount) }}
-                            à votre article. En voici {{ relatedArticles.length }} :
+                            à votre article.
+                            <span v-if="relatedArticles.length > 0">En voici {{ relatedArticles.length }} :</span>
                         </p>
-                        <ul class="list">
+                        <ul class="list" v-if="relatedArticles.length > 0">
                             <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }}
                                 - {{ article.title }}</a></li>
                         </ul>
