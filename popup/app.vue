@@ -48,7 +48,8 @@
                 </div>
             </div>
             <hr>
-            <div id="score-details" class="row">
+            <button type="button" class="btn btn-outline-secondary btn-sm" v-on:click="details = true" v-if="!details">Plus de détails</button>
+            <div id="score-details" v-bind:class="this.details ? 'row' : 'hidden'">
                 <div class="col-12">
                     <h4>Détails de la notation</h4>
                     <p>
@@ -106,7 +107,8 @@
                 totalArticles: null,
                 siteScoreArticlesCount: null,
                 interestingRelatedArticlesCount: null,
-                errors: []
+                errors: [],
+                details: false
             }
         },
         methods: {
@@ -123,6 +125,9 @@
                         break;
                 }
                 return arr;
+            },
+            toggleDetails() {
+                this.details = !this.details;
             },
             /**
              * Returns a color class for the given score. A pastilleColor may be given.
