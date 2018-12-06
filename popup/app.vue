@@ -67,8 +67,11 @@
                             <span v-if="relatedArticles.length > 0">En voici {{ relatedArticles.length }} :</span>
                         </p>
                         <ul class="list" v-if="relatedArticles.length > 0">
-                            <li v-for="article in relatedArticles"><a v-bind:href="article.url">{{ article.publisher }}
-                                - {{ article.title }}</a></li>
+                            <li v-for="article in relatedArticles">
+                                <a v-bind:href="article.url" target="_blank">
+                                    {{ article.publisher }} - {{ article.title }}
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -88,7 +91,8 @@
                             <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                             {{ pluralize("autre", siteScoreArticlesCount) }}
                             {{ pluralize("article", siteScoreArticlesCount) }}.<br>
-                            <a href="https://github.com/OnlyTrue-FND/api/wiki/Calcul-du-score">Plus de détails sur la
+                            <a href="https://github.com/OnlyTrue-FND/api/wiki/Calcul-du-score"
+                               target="_blank">Plus de détails sur la
                                 méthode de calcul</a><br>
                             Voici le détail des scores :
                         </p>
@@ -124,7 +128,9 @@
             </div>
         </div>
         <div class="feedback">
-            <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new">Signaler un problème</a>
+            <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new" target="_blank">
+                Signaler un problème
+            </a>
         </div>
     </div>
 </template>
