@@ -14,15 +14,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OnlyTrue-FND/browser.git"
+    "url": "git+https://github.com/CheckFake/browser.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/OnlyTrue-FND/browser/issues"
+    "url": "https://github.com/CheckFake/browser/issues"
   },
-  "homepage": "https://github.com/OnlyTrue-FND/browser#readme",
+  "homepage": "https://github.com/CheckFake/browser#readme",
   "devDependencies": {
     "laravel-mix": "^2.1.14",
     "vue": "^2.5.17"
