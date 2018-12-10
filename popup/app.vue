@@ -3,7 +3,7 @@
         <div>
             <div class="row">
                 <h1 class="col-12 popup-title">
-                    <img src="../icons/logo.svg" height="48" width="48" alt="Logo"> OnlyTrue
+                    <img src="../icons/logo.svg" height="48" width="48" alt="Logo"> CheckFake
                 </h1>
             </div>
             <hr>
@@ -91,7 +91,7 @@
                             <strong>{{ siteScoreArticlesCount - 1 }}</strong>
                             {{ pluralize("autre", siteScoreArticlesCount) }}
                             {{ pluralize("article", siteScoreArticlesCount) }}.<br>
-                            <a href="https://github.com/OnlyTrue-FND/api/wiki/Calcul-du-score"
+                            <a href="https://github.com/CheckFake/api/wiki/Calcul-du-score"
                                target="_blank">Plus de détails sur la
                                 méthode de calcul</a><br>
                             Voici le détail des scores :

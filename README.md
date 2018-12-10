@@ -1,4 +1,4 @@
-# OnlyTrue
+# CheckFake
 
 <img src="icons/logo.svg" alt="drawing" width="96"/>
 
