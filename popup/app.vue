@@ -25,14 +25,11 @@
             tard.
         </div>
         <div v-if="!loading">
-            <div id="error-content" v-if="errors.length > 0">
-                <h4>Errors</h4>
-                <p>Les erreurs seront probablement affichées en anglais.
-                    Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
+            <div id="error-content" v-if="mainError.level">
+                <h4>{{ getFriendlyLevelName(mainError.level) }}</h4>
+                <p>{{ mainError.message }}</p>
+                <p class="small">Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
                     alors que vous pensiez obtenir un résultat.</p>
-                <ul class="list">
-                    <li v-for="error in errors">{{ error }}</li>
-                </ul>
             </div>
             <div id="popup-content" v-else>
                 <div class="row">
@@ -148,11 +145,26 @@
                 siteScoreArticlesCount: null,
                 interestingRelatedArticlesCount: null,
                 errors: [],
+                mainError: {
+                    level: null,
+                    message: null
+                },
                 details: false,
                 loading: true
             }
         },
         methods: {
+            getFriendlyLevelName(level) {
+                switch (level) {
+                    case "debug":
+                    case "info":
+                        return "Information";
+                    case "warning":
+                        return "Attention";
+                    default:
+                        return "Erreur";
+                }
+            },
             getItemNameFromKey(key) {
                 let arr = key.split("_");
                 arr.pop();
@@ -220,6 +232,9 @@
                 return cls
             },
             displayConfidenceScore(data, tabs) {
+                if (!data) {
+                    return;
+                }
                 this.loading = false;
                 let tab = tabs[0];
                 this.page.title = tab.title;
@@ -242,10 +257,11 @@
                     }
                 };
             },
-            displayError(message, error) {
+            displayError(error) {
                 this.loading = false;
-                this.errors.push(`${message} : ${error}`);
-                console.error(message, error);
+                this.mainError.level = error.status;
+                this.mainError.message = error.data.message;
+                console.error(error);
             },
             pluralize(word, count, suffix = 's', replace = false) {
                 if (replace && count > 1) {
@@ -285,17 +301,21 @@
                     if (response.ok) {
                         return response.json();
                     }
-                    throw "Error 500 from server"
+                    throw {
+                        status: "error",
+                        data: {
+                            message: "Erreur de l'API"
+                        }
+                    }
                 })
                 .then(data => {
                     if (data.status !== 'success') {
-                        throw data.data.message;
+                        throw data;
                     }
                     return data;
                 })
                 .catch(error => {
-                    let message = 'Error computing score';
-                    this.displayError(message, error);
+                    this.displayError(error);
                 });
 
             let badgeDetailsPromise = Promise.all([activeTabPromise, getScorePromise])
