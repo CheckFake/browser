@@ -9,6 +9,7 @@
   },
   "permissions": [
     "https://fakenewsdetector.augendre.info/*",
+    "https://api.checkfake.info/*",
     "activeTab",
     "storage"
   ],
