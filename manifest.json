@@ -1,14 +1,13 @@
 {
   "manifest_version": 2,
   "name": "CheckFake",
-  "version": "3.1.12",
+  "version": "3.1.13",
   "description": "CheckFake indique la pertinence des articles consultés en s'appuyant sur une API opensource : https://github.com/CheckFake/api",
   "homepage_url": "https://github.com/CheckFake/browser",
   "icons": {
     "128": "icons/logo@2x.png"
   },
   "permissions": [
-    "https://fakenewsdetector.augendre.info/*",
     "https://api.checkfake.info/*",
     "activeTab",
     "storage"
