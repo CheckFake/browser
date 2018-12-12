@@ -61,7 +61,8 @@
                             {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }}
                             {{ pluralize("similaire", interestingRelatedArticlesCount) }}
                             à votre article.
-                            <span v-if="relatedArticles.length > 0">En voici {{ relatedArticles.length }} :</span>
+                            <span v-if="relatedArticles.length > 0 && relatedArticles.length < interestingRelatedArticlesCount">En voici {{ relatedArticles.length }} :</span>
+                            <span v-if="relatedArticles.length > 0 && relatedArticles.length === interestingRelatedArticlesCount">Les voici :</span>
                         </p>
                         <ul class="list" v-if="relatedArticles.length > 0">
                             <li v-for="article in relatedArticles">
