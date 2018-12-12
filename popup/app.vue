@@ -31,7 +31,7 @@
                 <p class="small">Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
                     alors que vous pensiez obtenir un résultat.</p>
             </div>
-            <div id="popup-content" v-else>
+            <div id="popup-content" v-if="!mainError.level && page.title">
                 <div class="row">
                     <div class="col-12 text-center">
                         <h4>Niveau de confiance</h4>
@@ -315,6 +315,14 @@
                     return data;
                 })
                 .catch(error => {
+                    if (!error.status) {
+                        error = {
+                            status: "error",
+                            data: {
+                                message: error.message
+                            }
+                        }
+                    }
                     this.displayError(error);
                 });
 
