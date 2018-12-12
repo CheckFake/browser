@@ -31,7 +31,7 @@
                 <p class="small">Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
                     alors que vous pensiez obtenir un résultat.</p>
             </div>
-            <div id="popup-content" v-else>
+            <div id="popup-content" v-if="!mainError.level && page.title">
                 <div class="row">
                     <div class="col-12 text-center">
                         <h4>Niveau de confiance</h4>
@@ -61,7 +61,8 @@
                             {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }}
                             {{ pluralize("similaire", interestingRelatedArticlesCount) }}
                             à votre article.
-                            <span v-if="relatedArticles.length > 0">En voici {{ relatedArticles.length }} :</span>
+                            <span v-if="relatedArticles.length > 0 && relatedArticles.length < interestingRelatedArticlesCount">En voici {{ relatedArticles.length }} :</span>
+                            <span v-if="relatedArticles.length > 0 && relatedArticles.length === interestingRelatedArticlesCount">Les voici :</span>
                         </p>
                         <ul class="list" v-if="relatedArticles.length > 0">
                             <li v-for="article in relatedArticles">
@@ -278,7 +279,7 @@
              */
             function queryAPI(tabs) {
                 let url = encodeURIComponent(tabs[0].url);
-                return fetch(`https://fakenewsdetector.augendre.info/api/page?url=${url}`);
+                return fetch(`https://api.checkfake.info/api/page?url=${url}`);
             }
 
             /**
@@ -315,6 +316,14 @@
                     return data;
                 })
                 .catch(error => {
+                    if (!error.status) {
+                        error = {
+                            status: "error",
+                            data: {
+                                message: error.message
+                            }
+                        }
+                    }
                     this.displayError(error);
                 });
 
