@@ -126,6 +126,9 @@
             </div>
         </div>
         <div class="feedback">
+            <a href="https://goo.gl/forms/qN89r0tL8NRRDAG73" target="_blank">
+                Nous aider
+            </a>
             <a href="https://github.com/Crocmagnon/fake-news-detector/issues/new" target="_blank">
                 Signaler un problème
             </a>
