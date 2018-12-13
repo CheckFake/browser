@@ -31,23 +31,23 @@
                 <p class="small">Merci de nous contacter via le lien ci-dessous si vous rencontrez une erreur
                     alors que vous pensiez obtenir un résultat.</p>
             </div>
-            <div id="popup-content" v-if="!mainError.level && page.title">
+            <div id="popup-content" v-if="!mainError.level && results.page.title">
                 <div class="row">
                     <div class="col-12 text-center">
                         <h4>Niveau de confiance</h4>
                         <p>
-                            <strong>Titre :</strong> {{ page.title }}
+                            <strong>Titre :</strong> {{ results.page.title }}
                         </p>
                         <span title="Très peu fiable" class="confidence-score-box score-box"
-                              v-bind:class="colorClassFromScore(this.confidenceScore, 'bad')">1</span>
+                              v-bind:class="colorClassFromScore(this.results.confidenceScore, 'bad')">1</span>
                         <span title="Peu fiable" class="confidence-score-box score-box"
-                              v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-bad')">2</span>
+                              v-bind:class="colorClassFromScore(this.results.confidenceScore, 'not-so-bad')">2</span>
                         <span title="Contenu incertain" class="confidence-score-box score-box"
-                              v-bind:class="colorClassFromScore(this.confidenceScore, 'meh')">3</span>
+                              v-bind:class="colorClassFromScore(this.results.confidenceScore, 'meh')">3</span>
                         <span title="Fiable" class="confidence-score-box score-box"
-                              v-bind:class="colorClassFromScore(this.confidenceScore, 'not-so-good')">4</span>
+                              v-bind:class="colorClassFromScore(this.results.confidenceScore, 'not-so-good')">4</span>
                         <span title="Très fiable" class="confidence-score-box score-box"
-                              v-bind:class="colorClassFromScore(this.confidenceScore, 'good')">5</span>
+                              v-bind:class="colorClassFromScore(this.results.confidenceScore, 'good')">5</span>
                     </div>
                 </div>
                 <hr>
@@ -55,17 +55,17 @@
                     <div class="col-12">
                         <h4>Articles connexes</h4>
                         <p>
-                            {{ interestingRelatedArticlesCount }}
-                            {{ pluralize("article", interestingRelatedArticlesCount) }} parmi ceux que nous avons
+                            {{ results.interestingRelatedArticlesCount }}
+                            {{ pluralize("article", results.interestingRelatedArticlesCount) }} parmi ceux que nous avons
                             analysés
-                            {{ pluralize("est", interestingRelatedArticlesCount, "sont", true) }}
-                            {{ pluralize("similaire", interestingRelatedArticlesCount) }}
+                            {{ pluralize("est", results.interestingRelatedArticlesCount, "sont", true) }}
+                            {{ pluralize("similaire", results.interestingRelatedArticlesCount) }}
                             à votre article.
-                            <span v-if="relatedArticles.length > 0 && relatedArticles.length < interestingRelatedArticlesCount">En voici {{ relatedArticles.length }} :</span>
-                            <span v-if="relatedArticles.length > 0 && relatedArticles.length === interestingRelatedArticlesCount">Les voici :</span>
+                            <span v-if="results.relatedArticles.length > 0 && results.relatedArticles.length < results.interestingRelatedArticlesCount">En voici {{ results.relatedArticles.length }} :</span>
+                            <span v-if="results.relatedArticles.length > 0 && results.relatedArticles.length === results.interestingRelatedArticlesCount">Les voici :</span>
                         </p>
-                        <ul class="list" v-if="relatedArticles.length > 0">
-                            <li v-for="article in relatedArticles">
+                        <ul class="list" v-if="results.relatedArticles.length > 0">
+                            <li v-for="article in results.relatedArticles">
                                 <a v-bind:href="article.url" target="_blank">
                                     {{ article.publisher }} - {{ article.title }}
                                 </a>
@@ -82,13 +82,13 @@
                         <h4>Détails de la notation</h4>
                         <p>
                             Le score attribué <strong>au contenu</strong> a été calculé en analysant
-                            <strong>{{ totalArticles }}</strong>
-                            {{ pluralize("autre", totalArticles) }}
-                            {{ pluralize("article", totalArticles) }}.<br>
+                            <strong>{{ results.totalArticles }}</strong>
+                            {{ pluralize("autre", results.totalArticles) }}
+                            {{ pluralize("article", results.totalArticles) }}.<br>
                             Le score attribué <strong>au site</strong> a été calculé par l'analyse précédente de
-                            <strong>{{ siteScoreArticlesCount - 1 }}</strong>
-                            {{ pluralize("autre", siteScoreArticlesCount) }}
-                            {{ pluralize("article", siteScoreArticlesCount) }}.<br>
+                            <strong>{{ results.siteScoreArticlesCount - 1 }}</strong>
+                            {{ pluralize("autre", results.siteScoreArticlesCount) }}
+                            {{ pluralize("article", results.siteScoreArticlesCount) }}.<br>
                             <a href="https://github.com/CheckFake/api/wiki/Calcul-du-score"
                                target="_blank">Plus de détails sur la
                                 méthode de calcul</a><br>
@@ -103,7 +103,7 @@
                                 </tr>
                                 </thead>
                                 <tbody id="scores">
-                                <tr v-for="(score, key) in scores">
+                                <tr v-for="(score, key) in results.scores">
                                     <th scope="row">{{ getItemNameFromKey(key) }}</th>
                                     <td v-bind:id="key" class="score">
                                         <span title="Très peu fiable" class="details-score-box score-box"
@@ -139,22 +139,40 @@
     export default {
         data() {
             return {
-                page: {
-                    title: null,
+                results: {
+                    page: {
+                        title: null,
+                        url: null
+                    },
+                    confidenceScore: null,
+                    relatedArticles: [],
+                    scores: [],
+                    totalArticles: null,
+                    siteScoreArticlesCount: null,
+                    interestingRelatedArticlesCount: null,
                 },
-                confidenceScore: null,
-                relatedArticles: [],
-                scores: [],
-                totalArticles: null,
-                siteScoreArticlesCount: null,
-                interestingRelatedArticlesCount: null,
-                errors: [],
                 mainError: {
                     level: null,
                     message: null
                 },
                 details: false,
-                loading: true
+                loading: true,
+                fromLocalStorage: false,
+            }
+        },
+        watch: {
+            results: {
+                handler() {
+                    if (this.fromLocalStorage) {
+                        return;
+                    }
+
+                    let contentToStore = {};
+                    contentToStore[this.results.page.url] = JSON.stringify(this.results);
+                    console.log("storing", contentToStore);
+                    browser.storage.local.set(contentToStore);
+                },
+                deep: true
             }
         },
         methods: {
@@ -220,7 +238,7 @@
                 return 'grey';
             },
             colorFromConfidenceScore() {
-                let cls = this.colorClassFromScore(this.confidenceScore);
+                let cls = this.colorClassFromScore(this.results.confidenceScore);
                 switch (cls) {
                     case "good":
                         return "#007a1c";
@@ -241,14 +259,20 @@
                 }
                 this.loading = false;
                 let tab = tabs[0];
-                this.page.title = tab.title;
-                this.confidenceScore = data.data.global_score;
+                if (this.fromLocalStorage) {
+                    this.results = data;
+                }
+                else {
+                    this.results.page.title = tab.title;
+                    this.results.page.url = tab.url;
+                    this.results.confidenceScore = data.data.global_score;
 
-                this.scores = data.data.scores;
-                this.relatedArticles = data.data.related_articles_selection;
-                this.totalArticles = data.data.total_articles;
-                this.siteScoreArticlesCount = data.data.site_score_articles_count;
-                this.interestingRelatedArticlesCount = data.data.interesting_related_articles_count;
+                    this.results.scores = data.data.scores;
+                    this.results.relatedArticles = data.data.related_articles_selection;
+                    this.results.totalArticles = data.data.total_articles;
+                    this.results.siteScoreArticlesCount = data.data.site_score_articles_count;
+                    this.results.interestingRelatedArticlesCount = data.data.interesting_related_articles_count;
+                }
 
                 return {
                     color: {
@@ -281,6 +305,7 @@
              * Queries the API for the scores of the current tab
              */
             function queryAPI(tabs) {
+                console.log("calling API");
                 let url = encodeURIComponent(tabs[0].url);
                 return fetch(`https://api.checkfake.info/api/page?url=${url}`);
             }
@@ -298,10 +323,26 @@
                     let message = 'Error getting active tab';
                     this.displayError(message, error);
                 });
+            let dataFromLocalStoragePromise = activeTabPromise
+                .then(tabs => {
+                    let url = tabs[0].url;
+                    return browser.storage.local.get(url)
+                });
 
-            let getScorePromise = activeTabPromise
-                .then(queryAPI)
+            let getScorePromise = Promise.all([activeTabPromise, dataFromLocalStoragePromise])
+                .then(([tabs, data]) => {
+                    if (data.hasOwnProperty(tabs[0].url)) {
+                        console.log("got data from storage");
+                        let d = JSON.parse(data[tabs[0].url]);
+                        this.fromLocalStorage = true;
+                        return d;
+                    }
+                    return queryAPI(tabs);
+                })
                 .then(response => {
+                    if (this.fromLocalStorage) {
+                        return response;
+                    }
                     if (response.ok) {
                         return response.json();
                     }
@@ -313,6 +354,9 @@
                     }
                 })
                 .then(data => {
+                    if (this.fromLocalStorage) {
+                        return data;
+                    }
                     if (data.status !== 'success') {
                         throw data;
                     }
