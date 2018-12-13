@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "CheckFake",
-  "version": "3.1.15",
+  "version": "3.1.16",
   "description": "CheckFake indique la pertinence des articles consultés en s'appuyant sur une API opensource : https://github.com/CheckFake/api",
   "homepage_url": "https://github.com/CheckFake/browser",
   "icons": {

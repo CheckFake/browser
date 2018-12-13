@@ -89,6 +89,8 @@
                             <strong>{{ results.siteScoreArticlesCount - 1 }}</strong>
                             {{ pluralize("autre", results.siteScoreArticlesCount) }}
                             {{ pluralize("article", results.siteScoreArticlesCount) }}.<br>
+                            Le score des <strong>articles isolés</strong> est calculé en fonction du nombre d'articles
+                            isolés détectés pour le site.
                             <a href="https://github.com/CheckFake/api/wiki/Calcul-du-score"
                                target="_blank">Plus de détails sur la
                                 méthode de calcul</a><br>
@@ -197,6 +199,9 @@
                         break;
                     case "site":
                         arr = "Site";
+                        break;
+                    case "isolated articles":
+                        arr = "Articles isolés";
                         break;
                 }
                 return arr;
@@ -307,7 +312,7 @@
             function queryAPI(tabs) {
                 console.log("calling API");
                 let url = encodeURIComponent(tabs[0].url);
-                return fetch(`https://api.checkfake.info/api/page?url=${url}`);
+                return fetch(`http://localhost:8000/api/page?url=${url}`);
             }
 
             /**
