@@ -312,7 +312,7 @@
             function queryAPI(tabs) {
                 console.log("calling API");
                 let url = encodeURIComponent(tabs[0].url);
-                return fetch(`http://localhost:8000/api/page?url=${url}`);
+                return fetch(`https://api.checkfake.info/api/page?url=${url}`);
             }
 
             /**
