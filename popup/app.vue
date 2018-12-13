@@ -142,6 +142,7 @@
                 results: {
                     page: {
                         title: null,
+                        url: null
                     },
                     confidenceScore: null,
                     relatedArticles: [],
@@ -155,7 +156,23 @@
                     message: null
                 },
                 details: false,
-                loading: true
+                loading: true,
+                fromLocalStorage: false,
+            }
+        },
+        watch: {
+            results: {
+                handler() {
+                    if (this.fromLocalStorage) {
+                        return;
+                    }
+
+                    let contentToStore = {};
+                    contentToStore[this.results.page.url] = JSON.stringify(this.results);
+                    console.log("storing", contentToStore);
+                    browser.storage.local.set(contentToStore);
+                },
+                deep: true
             }
         },
         methods: {
@@ -242,14 +259,20 @@
                 }
                 this.loading = false;
                 let tab = tabs[0];
-                this.results.page.title = tab.title;
-                this.results.confidenceScore = data.data.global_score;
+                if (this.fromLocalStorage) {
+                    this.results = data;
+                }
+                else {
+                    this.results.page.title = tab.title;
+                    this.results.page.url = tab.url;
+                    this.results.confidenceScore = data.data.global_score;
 
-                this.results.scores = data.data.scores;
-                this.results.relatedArticles = data.data.related_articles_selection;
-                this.results.totalArticles = data.data.total_articles;
-                this.results.siteScoreArticlesCount = data.data.site_score_articles_count;
-                this.results.interestingRelatedArticlesCount = data.data.interesting_related_articles_count;
+                    this.results.scores = data.data.scores;
+                    this.results.relatedArticles = data.data.related_articles_selection;
+                    this.results.totalArticles = data.data.total_articles;
+                    this.results.siteScoreArticlesCount = data.data.site_score_articles_count;
+                    this.results.interestingRelatedArticlesCount = data.data.interesting_related_articles_count;
+                }
 
                 return {
                     color: {
@@ -282,6 +305,7 @@
              * Queries the API for the scores of the current tab
              */
             function queryAPI(tabs) {
+                console.log("calling API");
                 let url = encodeURIComponent(tabs[0].url);
                 return fetch(`https://api.checkfake.info/api/page?url=${url}`);
             }
@@ -299,10 +323,26 @@
                     let message = 'Error getting active tab';
                     this.displayError(message, error);
                 });
+            let dataFromLocalStoragePromise = activeTabPromise
+                .then(tabs => {
+                    let url = tabs[0].url;
+                    return browser.storage.local.get(url)
+                });
 
-            let getScorePromise = activeTabPromise
-                .then(queryAPI)
+            let getScorePromise = Promise.all([activeTabPromise, dataFromLocalStoragePromise])
+                .then(([tabs, data]) => {
+                    if (data.hasOwnProperty(tabs[0].url)) {
+                        console.log("got data from storage");
+                        let d = JSON.parse(data[tabs[0].url]);
+                        this.fromLocalStorage = true;
+                        return d;
+                    }
+                    return queryAPI(tabs);
+                })
                 .then(response => {
+                    if (this.fromLocalStorage) {
+                        return response;
+                    }
                     if (response.ok) {
                         return response.json();
                     }
@@ -314,6 +354,9 @@
                     }
                 })
                 .then(data => {
+                    if (this.fromLocalStorage) {
+                        return data;
+                    }
                     if (data.status !== 'success') {
                         throw data;
                     }
