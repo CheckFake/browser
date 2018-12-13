@@ -31,8 +31,14 @@ body {
 }
 
 .feedback {
-    text-align: right;
     font-size: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.feedback > a {
+    display: inline-block;
 }
 
 .popup-title {
